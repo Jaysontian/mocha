@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mocha</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class='sidebar-con'>
+        <div class='logo'>
+            <span>☕</span>
+            <p>Mocha</p>
+        </div>
+        <p id='intro'>Mocha is a feature-rich note-taking app which helps you study smart. It incorporates active recall based on the Cornell notes system. Your notes sync with your Google Drive so it is constantly updated.</p><br>
+        <div class='btn' id='authorize_button'>Link Drive</div>
+        <div class='btn' id='signout_button' style='display:none;'>Sign Out</div>
+        <br>
+        <div class='sidebar' style='display:none;'>
+            <div class='notelink-con'>
+                <div class='note'>Imperialism in 1990</div>
+                <div class='note'>1 - Neurological Techniques</div>
+                <div class='note'>2 - Memory Potentiation</div>
+            </div>
+            <div class='addnote-btn'>+ Add Note</div>
+        </div>
+        <pre id="content" style="white-space: pre-wrap; font-family:'archivo'"></pre>
+    </div>
+    <div class='sidebar-pseudo'></div>
+    <main style='display:none;'>
+        <article style='display:none;' id='page-template'>
+            <div id='head-con' class='card'>
+                <h1>Biological Potentiation</h1>
+                <p class='desc'>What is the least amount of neurons needed to fire an action potential?</p>
+                <div class='btn' id='publish'>Publish</div>
+                <div class='btn' id='save'>Save</div>
+                <p><a class='pdflink'>Link</a></p>
+            </div>
+            <div class='card-con'>
+                <div class='card' id='card-template' style='display:none;'>
+                    <input type="checkbox">
+                    <div class='topic'>
+                        <div contenteditable="true" class="editor"></div>
+                    </div>
+                    <div class='note-con'>
+                        <div class='note' id='note-template' style='display:none;'>
+                            <p class='bullet'>•</p>
+                            <div contenteditable="true" class="editor"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='btn'>+ New Card</div>
+        </article>
+    </main>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="drive.js"></script>
+<script async defer src="https://apis.google.com/js/api.js"
+    onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+<script src="card.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.4/purify.min.js" integrity="sha512-jGh38w63cHRzfBHtyKgEMMkJswUFXDA3YXrDjaE8ptzxV5DDkLDUDjtGUy5tmDkOXHWsItKfFjocaEtj1WuVnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.4/html2canvas.min.js" integrity="sha512-lOMAdQoVIBxlMI0yHya99EkM9UA1OmVMnKemNk/vopLYJ1SQ4A8ZwCzJiNjXIQna3vs3pdA6f7mJoWecnR0jVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+<script src="publish.js"></script>
+<script src="save.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</html>

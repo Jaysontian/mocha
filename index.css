@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600&display=swap');
+
+body {
+    display:flex;
+    margin:0px;
+    font-family: 'Archivo', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-color:rgb(241, 240, 240);
+}
+
+html, p {
+    font-weight:400;
+    color:rgb(48, 47, 47);
+    line-height:15pt;
+    font-size:11pt;
+}
+
+.btn {
+    color:white;
+    padding:5px 10px;
+    font-size:10.5pt;
+    margin-top:5px;
+    border-radius:50px;
+    background-color:rgb(61, 60, 60);
+    width:fit-content;
+    cursor:pointer;
+}
+
+.sidebar-con, .sidebar-pseudo {
+    height: 100vh;
+    width: 25vw;
+    max-width:325px;
+    min-width:275px;
+    margin-left:0px;
+    padding:0px 15px;
+    padding-top:25px;
+    padding-left:20px;
+    flex: none;
+}
+
+.sidebar-con {
+    position: fixed;
+    display:flex;
+    flex-direction: column;
+}
+
+.sidebar {
+    background-color:white;
+    border:2px solid rgb(228, 223, 223);
+    min-height:300px;
+    width:90%;
+    margin:0px 0px;
+    border-radius:5px;
+    padding: 10px 10px;
+}
+
+.sidebar .note {
+    color:rgb(90, 88, 88);
+    padding:3px 5px;
+    border-radius:50px;
+}
+
+.sidebar .note:hover {
+    cursor:pointer;
+    background-color:rgb(241, 241, 241);
+}
+.addnote-btn{
+    color:white;
+    padding:5px 10px;
+    font-size:11pt;
+    margin-top:5px;
+    border-radius:50px;
+    background-color:rgb(61, 60, 60);
+    width:fit-content;
+    cursor:pointer;
+}
+
+.logo {
+    display:flex;
+    align-items: center;
+    background-color:rgb(230, 221, 221);
+    width:fit-content;
+    padding:6px 12px;
+    border-radius:25px;
+    margin-bottom:20px;
+}
+
+.logo:hover{
+    cursor:pointer;
+    background-color:rgb(211, 192, 192);
+}
+
+.logo span {
+    font-size:17pt;
+}
+.logo p {
+    font-size:12.5pt;
+    font-weight:600;
+    margin:0px;
+    margin-left:10px;
+}
