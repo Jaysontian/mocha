@@ -4,7 +4,7 @@ const doc = new jsPDF();
 
 var pdfoutput;
 
-function publish(pageId, title){
+function publish(pageId, title){ // generates PDF in users google drive
 
     console.log(title);
     var con = $('<div>').attr('id', 'file-render').prependTo('html');

@@ -52,12 +52,12 @@ function updateSigninStatus(isSignedIn) {
     signoutButton.style.display = 'block';
     appendPre('Sign In Successful');
 
-    $('main').show();
+    $('.app').show();
     $('.sidebar').show();
     $('#intro').hide();
     //listFiles();
   } else {
-    $('main').hide();
+    $('.app').hide();
     $('.sidebar').hide();
     $('#intro').show();
     authorizeButton.style.display = 'block';

@@ -1,4 +1,5 @@
 
+var saveID;
 var data = {
     189902: {
         title: 'SL Chemistry Review',
@@ -38,12 +39,19 @@ var data = {
 }
 
 
+function init(){
+    checkexist();
+}
+
 function load() {
+    $(".app").empty();
+    console.log('rerendering');
+    console.log(data);
     renderPage(189902);
 }
 
 function renderPage(pageId){
-    var page = $('#page-template').clone().addClass('page-' + pageId).attr('id',pageId);
+    var page = $('#page-template').clone().show().addClass('page-' + pageId).attr('id',pageId);
     page.find('#head-con h1').text(data[pageId].title);
     page.find('#head-con .desc').text(data[pageId].desc);
     var title = data[pageId].title;
@@ -51,7 +59,7 @@ function renderPage(pageId){
     page.find('#todocs').click(()=>{publishtodocs(pageId, title)});
     page.find('#save').click(()=>{save(data)})
     render.pdflink(pageId);
-    page.appendTo('main').show();
+    page.appendTo('.app').show();
     $('#page-template').remove();
 
     for (cardId in data[pageId].cards) {
