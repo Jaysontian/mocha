@@ -10,13 +10,16 @@
 </head>
 <body>
     <div class='sidebar-con'>
-        <div class='logo'>
-            <span>☕</span>
-            <p>Mocha</p>
+        <div class='logo-con'>
+            <div class='logo'>
+                <span>☕</span>
+                <p>Mocha</p>
+            </div>
+            <div class='btn2' id='authorize_button'><i class='icon' data-feather="log-in"></i><span class='spacer'></span> Link Drive</div>
+            <div class='btn2' id='signout_button' style='display:none;'><i class='icon' data-feather="log-out"></i><span class='spacer'></span>Sign Out</div>
         </div>
+
         <p id='intro'>Mocha is a feature-rich note-taking app which helps you study smart. It incorporates active recall based on the Cornell notes system. Your notes sync with your Google Drive so it is constantly updated.</p><br>
-        <div class='btn' id='authorize_button'>Link Drive</div>
-        <div class='btn' id='signout_button' style='display:none;'>Sign Out</div>
         <br>
         <div class='sidebar' style='display:none;'>
             <div class='notelink-con'>
@@ -24,19 +27,26 @@
                 <div class='note'>1 - Neurological Techniques</div>
                 <div class='note'>2 - Memory Potentiation</div>
             </div>
-            <div class='addnote-btn'>+ Add Note</div>
+            <div class='addnote-btn btn2'>+ Add Note</div>
         </div>
+        <div class='btn2' onclick='deleteSave()'>Delete Save</div>
         <pre id="content" style="white-space: pre-wrap; font-family:'archivo'"></pre>
     </div>
     <div class='sidebar-pseudo'></div>
     <main style='display:none;'>
         <article style='display:none;' id='page-template'>
-            <div id='head-con' class='card'>
+            <div id='head-con'>
+                <div class='toolbar'>
+                    <div class='tool-group'>
+                        <div class='btn2'><i class='icon' data-feather="book"></i><span class='spacer'></span>Notebook</div>
+                    </div>
+                    <div class='tool-group'>
+                        <div class='btn2' id='publish'><i class='icon' data-feather="upload-cloud"></i><span class='spacer'></span>Send to Drive</div>
+                        <div class='btn2 pdflink'><i class='icon' data-feather="external-link"></i><span class='spacer'></span>PDF</div>
+                    </div>
+                </div>
                 <h1>Biological Potentiation</h1>
-                <p class='desc'>What is the least amount of neurons needed to fire an action potential?</p>
-                <div class='btn' id='publish'>Publish</div>
-                <div class='btn' id='save'>Save</div>
-                <p><a class='pdflink'>Link</a></p>
+                <!--<p class='desc'>What is the least amount of neurons needed to fire an action potential?</p>-->
             </div>
             <div class='card-con'>
                 <div class='card' id='card-template' style='display:none;'>
@@ -50,27 +60,38 @@
                             <div contenteditable="true" class="editor"></div>
                         </div>
                     </div>
+                    <div class='card-tool-con'>
+                        <div><i class='icon' data-feather="more-vertical"></i></div>
+                        <div><i class='icon' data-feather="move"></i></div>
+                    </div>
                 </div>
             </div>
-            <div class='btn'>+ New Card</div>
+            <div class='btn2 newcard-btn'><i class='icon' data-feather="plus-circle"></i><span class='spacer'></span> New Card</div>
         </article>
     </main>
     <main class='app'>
-
+        <div style='text-align:center;'><br><br><br>
+            <h2>Loading...</h2>
+            <p>If the app does not load in 10 seconds, please try reloading the page.</p>
+        </div>
     </main>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="drive.js"></script>
-<script async defer src="https://apis.google.com/js/api.js"
-    onload="this.onload=function(){};handleClientLoad()"
-    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+<script>
+  feather.replace()
 </script>
-<script src="card.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.4/purify.min.js" integrity="sha512-jGh38w63cHRzfBHtyKgEMMkJswUFXDA3YXrDjaE8ptzxV5DDkLDUDjtGUy5tmDkOXHWsItKfFjocaEtj1WuVnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.4/html2canvas.min.js" integrity="sha512-lOMAdQoVIBxlMI0yHya99EkM9UA1OmVMnKemNk/vopLYJ1SQ4A8ZwCzJiNjXIQna3vs3pdA6f7mJoWecnR0jVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="drive.js"></script>
+<script async defer src="https://apis.google.com/js/api.js?callback=hello"
+    onload="this.onload=function(){};handleClientLoad();"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+
+<script src="card.js"></script>
 <script src="publish.js"></script>
 <script src="save.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 </html>

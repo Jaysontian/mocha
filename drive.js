@@ -49,7 +49,7 @@ function initClient() {
 function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     authorizeButton.style.display = 'none';
-    signoutButton.style.display = 'block';
+    signoutButton.style.display = 'flex';
     appendPre('Sign In Successful');
 
     $('.app').show();
@@ -60,9 +60,10 @@ function updateSigninStatus(isSignedIn) {
     $('.app').hide();
     $('.sidebar').hide();
     $('#intro').show();
-    authorizeButton.style.display = 'block';
+    authorizeButton.style.display = 'flex';
     signoutButton.style.display = 'none';
-  }
+  };
+  checkexist();
 }
 
 /**

@@ -4,13 +4,14 @@ const doc = new jsPDF();
 
 var pdfoutput;
 
-function publish(pageId, title){ // generates PDF in users google drive
+function publish(pageId){ // generates PDF in users google drive
 
-    console.log(title);
+
     var con = $('<div>').attr('id', 'file-render').prependTo('html');
     $('#'+pageId).clone().appendTo(con).attr('id', 'clone');
-    $('#clone .btn').remove();
-    $('#clone a').remove();
+    $('#clone .toolbar').remove();
+    $('#clone .btn2').remove();
+    console.log('deltede tocsnin')
 
      
     doc.html(document.getElementById('clone'), {
@@ -24,7 +25,7 @@ function publish(pageId, title){ // generates PDF in users google drive
             if (data[pageId].driveID == null){
                 console.log('this file doesnt exist, created a new file.');
                 var metadata = {
-                    'name':  title + '.pdf', // Filename at Google Drive
+                    'name':  data[pageId].title + '.pdf', // Filename at Google Drive
                     'mimeType': 'application/pdf', // mimeType at Google Drive
                 };
                 
@@ -45,8 +46,13 @@ function publish(pageId, title){ // generates PDF in users google drive
                 });
             } else {
                 console.log('this file exists, updating.');
+                var metadata = {
+                    'name':  data[pageId].title + '.pdf', // Filename at Google Drive
+                    'mimeType': 'application/pdf', // mimeType at Google Drive
+                };
+                form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
                 form.append('pdf', file);
-                fetch('https://www.googleapis.com/upload/drive/v3/files/' + String(data[pageId].driveID) + '?uploadType=media', {
+                fetch('https://www.googleapis.com/upload/drive/v3/files/' + String(data[pageId].driveID) + '?uploadType=multipart', {
                     method: 'PATCH',
                     headers: new Headers({ 'Authorization': 'Bearer ' + accessToken }),
                     body: form,
@@ -58,7 +64,6 @@ function publish(pageId, title){ // generates PDF in users google drive
                 });
                 
             }
-
         },
         x: 17,
         y: 10,

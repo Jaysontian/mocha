@@ -8,10 +8,23 @@ main {
 }
 
 article{
-    max-width:700px;
+    max-width:800px;
     width:100%;
     margin:auto;
 }
+
+.spacer {
+    width:5px;
+}
+.feather, svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
 
 #file-render{
     opacity:0;
@@ -28,15 +41,33 @@ article{
 
 #head-con {
     display:block;
+    margin:0px -10px;
+    margin-top:20px;
+}
+
+#head-con h1{
+    border: solid 2px rgba(255, 255, 255, 0);
+    padding:5px 10px;
+    width:fit-content;
+    border-radius:5px;
+    margin:20px 0px;
+}
+#head-con h1:hover{
+    border:solid 2px rgb(137, 198, 255);
 }
 
 .card{
-    background-color:white;
-    padding:20px 25px;
-    border-radius:5px;
-    border: 2px solid rgb(226, 221, 221);
-    margin-bottom:20px;
     display:flex;
+    width:90%;
+    background-color:white;
+    padding:20px 3%;
+    border-radius:10px;
+    border: 2px solid rgb(231, 228, 228);
+    margin-bottom:20px;
+}
+.card.checked{
+    background-color:rgb(224, 235, 255);
+    border-color:rgb(176, 204, 255);
 }
 
 .card input{
@@ -64,7 +95,7 @@ article{
     height:fit-content;
     margin:0px 8px;
     padding:5px;
-    border:solid 2px rgb(255, 255, 255);
+    border:solid 2px rgba(255, 255, 255, 0);
     border-radius:3px;
     min-height:20px;
 }
@@ -72,8 +103,8 @@ article{
     width:100%;
     min-height:20px;
     height:100%;
-    font-size:10.5pt;
-    line-height:13pt;
+    font-size:11pt;
+    line-height:20px;
     outline:none;
     cursor:text;
 }
@@ -85,25 +116,33 @@ article{
 
 
 .note-con{
-    width:70%;
+    width:100%;
     height:fit-content;
     margin:0px 8px;
     padding:5px;
 }
 .card .note {
-    border:solid 2px rgb(255, 255, 255);
+    width:100%;
+    border:solid 2px rgba(255, 255, 255, 0);
     border-radius:3px;
     min-height:20px;
     display:flex;
+    margin-bottom:-3.5px;
 }
 
 .card .note .bullet{
+    font-size:18pt;
     margin:0px;
     margin-right:8px;
+    margin-top:-2px;
     color:rgb(168, 168, 168);
+    transition:all 0.3s ease-in-out;
 }
 
 .card .note:focus-within .bullet{
+    color:rgb(77, 77, 77);
+}
+.card .note:hover .bullet{
     color:rgb(77, 77, 77);
 }
 
@@ -112,8 +151,8 @@ article{
     width:100%;
     min-height:20px;
     height:100%;
-    font-size:10.5pt;
-    line-height:13pt;
+    font-size:11pt;
+    line-height:20px;
     outline:none;
     cursor:text;
 }
@@ -122,4 +161,33 @@ article{
     color: rgb(185, 185, 185); 
 }
 
+.card-tool-con {
+    opacity:0;
+    position:relative;
+    margin:0px;
+    left:8%;
+    top:-16px;
+    flex-direction: column;
+    display:flex;
+    cursor:pointer;
+    transition:0.15s ease-in-out;
+    color:grey;
+}
+.card:hover .card-tool-con{
+    opacity:1;
+}
 
+
+
+.toolbar{
+    display:flex;
+    justify-content: space-between;
+    padding-right:25px;
+}
+.toolbar .tool-group{
+    display:flex;
+}
+
+.newcard-btn{
+    margin:auto;
+}

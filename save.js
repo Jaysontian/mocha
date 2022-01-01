@@ -1,24 +1,22 @@
 
 
-function checkexist(data) {
+function checkexist() {
     gapi.client.drive.files.list({
         spaces: 'appDataFolder',
         fields: 'nextPageToken, files(id, name)',
         pageSize: 100
     }).then(function(response) {
-      appendPre('Files:');
+        //console.log('checking...');
       var files = response.result.files;
       if (files && files.length > 0) {
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
           if (file.name == 'Motcha_Data.json'){
-                console.log(file.id);
-                //updateSavedData(file.id)
-                getData(file.id)
+                getData(file.id);
           }
         }
       } else {
-        appendPre('No files found.');
+        appendPre('New user, created config save log.');
         firsttime();
       }
     });
@@ -45,8 +43,9 @@ function firsttime(){
     }).then((res) => {
         return res.json();
     }).then(function(val) {
-        console.log(val);
-        appendPre('Successfully created new piece of data. File ID: ' + val.id)
+        saveID = val.id;
+        appendPre('Successfully created new piece of data. File ID: ' + val.id);
+        load();
     });
 }
 
@@ -59,21 +58,22 @@ function getData(ID){
         });
         request.then(function(response) {
             data = JSON.parse(response.body); //response.body contains the string value of the file
+            saveID = ID;
             load();
         }, function(error) {
             console.error(error)
-        })
+        });
         return request;
 }
 
-function update(ID){
+function update(){
     var content = JSON.stringify(data);
-    console.log(content);
+    //console.log(content);
     var contentBlob = new Blob([content], {
         'type': 'text/plain'
     });
-    updateFileContent(ID, contentBlob, function(response) {
-        console.log(response);
+    updateFileContent(saveID, contentBlob, function(response) {
+        appendPre('Saved.');
     });
 }
 
@@ -104,4 +104,11 @@ function createFileContent(contentBlob, callback){
     xhr.open('POST', 'https://www.googleapis.com/upload/drive/v3/files/' + fileId + '?uploadType=media');
     xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
     xhr.send(contentBlob);
+}
+
+function deleteSave(){
+        var request = gapi.client.drive.files.delete({
+          'fileId': saveID
+        });
+        request.execute(function(resp) { console.log(resp)});
 }
