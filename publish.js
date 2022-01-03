@@ -8,7 +8,7 @@ function publish(pageId){ // generates PDF in users google drive
 
 
     var con = $('<div>').attr('id', 'file-render').prependTo('html');
-    $('<img src="/assets/spinner.gif" id="spinner">').appendTo(con);
+    $('<img src="https://i.imgur.com/8oBnO0N.gif" id="spinner">').appendTo(con);
     $('#'+pageId).clone().appendTo(con).attr('id', 'clone');
     $('#clone .toolbar').remove();
     $('#clone .btn2').remove();
