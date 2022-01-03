@@ -8,6 +8,7 @@ function publish(pageId){ // generates PDF in users google drive
 
 
     var con = $('<div>').attr('id', 'file-render').prependTo('html');
+    $('<img src="/assets/spinner.gif" id="spinner">').appendTo(con);
     $('#'+pageId).clone().appendTo(con).attr('id', 'clone');
     $('#clone .toolbar').remove();
     $('#clone .btn2').remove();
@@ -42,6 +43,7 @@ function publish(pageId){ // generates PDF in users google drive
                     console.log(val);
                     data[pageId].driveID = val.id;
                     render.pdflink(pageId);
+                    con.remove();
                     appendPre('This note has been uploaded as a PDF to your google drive.')
                 });
             } else {
@@ -60,7 +62,8 @@ function publish(pageId){ // generates PDF in users google drive
                     return res.json();
                 }).then(function(val) {
                     console.log(val);
-                    appendPre('This note has been updated.')
+                    appendPre('This note has been updated.');
+                    con.remove();
                 });
                 
             }
