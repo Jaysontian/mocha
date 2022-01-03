@@ -316,7 +316,7 @@ var create = {
                 height: 100,
             });
 
-            render.note.image(pageId, cardIndex, newId, prevId);
+            render.note.image(pageId, cardIndex, newID, prevId);
         }
     },
     card: (noteId) =>{
