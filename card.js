@@ -328,6 +328,27 @@ function print(pageId, cardIndex){
 
     for (var i = 0; i < items.length; i++) {
         // Skip content if not image
+        console.log(items[i].type);
+
+        if ((items[i].type).includes('image')){
+            var image = items[i].getAsFile();
+
+            const formData = new FormData();
+            formData.append('image', image);
+            fetch('https://api.imgur.com/3/image', {
+                method: 'POST',
+                headers: new Headers({ 'Authorization': 'Client-ID b8578be85341600'}),
+                body: formData,
+            }).then((res) => {
+                return res.json();
+            }).then(function(val) {
+                console.log(val);
+                appendPre('Image!');
+                con.remove();
+            });
+        }
+
+        /*
         if (items[i].type.indexOf("image") == -1) continue;
         // Retrieve image on clipboard as blob
         var blob = items[i].getAsFile();
@@ -361,6 +382,6 @@ function print(pageId, cardIndex){
 
         // Creates a DOMString containing a URL representing the object given in the parameter
         // namely the original Blob
-        img.src = URLObj.createObjectURL(blob);
+        img.src = URLObj.createObjectURL(blob);*/
     }
 }
