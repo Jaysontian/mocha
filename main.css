@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600&display=swap');
 
-
+html{
+    scroll-behavior: smooth;
+}
 main {
     width:100%;
     height:fit-content;
@@ -134,29 +136,53 @@ article{
     margin:0px 8px;
     padding:5px;
 }
-.card .note {
+.note {
     width:100%;
     border:solid 2px rgba(255, 255, 255, 0);
     border-radius:3px;
     min-height:20px;
     display:flex;
     margin-bottom:-3.5px;
+    transition:padding 0.18s ease-out;
 }
+
+.level-2 {
+    width:93%;
+    padding-left:20px;
+    margin-left:2%;
+}
+
+.level-2 .bullet{
+    color: white !important;
+    content: "";
+    margin-top:-6px !important;
+    transition:color 0s ease-in-out !important;
+}
+
+.level-2 .bullet::before{
+    content:"○";
+    font-weight:bold;
+    font-size:7px;
+    color:black;
+}
+
+
+
 
 .card .note .bullet{
     font-size:18pt;
     margin:0px;
     margin-right:8px;
     margin-top:-2px;
-    color:rgb(168, 168, 168);
-    transition:all 0.3s ease-in-out;
+    color:rgb(73, 73, 73);
+    transition:color 0.3s ease-in-out;
 }
 
 .card .note:focus-within .bullet{
-    color:rgb(77, 77, 77);
+    color:rgb(34, 137, 255);
 }
 .card .note:hover .bullet{
-    color:rgb(77, 77, 77);
+    color:rgb(34, 137, 255);
 }
 
 
