@@ -221,8 +221,7 @@ var render = {
                 }
             });
             noteDIV.on("paste", function(e){
-                create.note.image(pageId, cardIndex, noteId, 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png');
-                /*
+                
                 if(e.clipboardData == false){
                     if(typeof(callback) == "function"){
                         callback(undefined);
@@ -251,7 +250,7 @@ var render = {
                             create.note.image(pageId, cardIndex, noteId, val.data.link);
                         });
                     }
-                }*/
+                }
             } );
             
         },
