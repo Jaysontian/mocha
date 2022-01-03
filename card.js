@@ -235,6 +235,8 @@ var render = {
                 };
                 for (var i = 0; i < items.length; i++) {
                     if ((items[i].type).includes('image')){
+                        notecontainer.empty().append('<div class="image-loader"><img src="https://i.imgur.com/V3H8XcE.gif"></img></div>');
+
                         var image = items[i].getAsFile();
             
                         const formData = new FormData();

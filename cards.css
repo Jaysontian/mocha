@@ -22,3 +22,21 @@
     width:100%;
     display:flex;
 }
+
+
+.image-loader{
+    background-color:rgb(235, 235, 235);
+    width:50%;
+    height:150px;
+    border-radius:5px;
+    margin: 15px auto;
+    display:flex;
+}
+
+.image-loader img{
+    opacity:50%;
+    width:25px;
+    height:25px;
+    margin:auto;
+    margin-top:65px;
+}
