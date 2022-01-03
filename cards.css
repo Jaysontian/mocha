@@ -1,0 +1,24 @@
+.note-image .bullet{
+    opacity:0;
+    visibility: hidden;
+}
+
+.note .image {
+    width:50%;
+    border-radius:5px;
+    margin: 15px auto;
+    border:2px solid rgba(255, 255, 255, 0);
+    outline: 2px solid rgba(72, 135, 230, 0);
+    transition:all ease-in-out 0.25s;
+    cursor:pointer;
+}
+
+.note-image.focus .image{
+    border:2px solid rgb(255, 255, 255);
+    outline: 2px solid rgb(72, 135, 230);
+}
+
+.note .image-con{
+    width:100%;
+    display:flex;
+}

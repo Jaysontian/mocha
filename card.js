@@ -170,6 +170,10 @@ var render = {
                 //console.log('rendering...'+data[pageId].cards[cardId].notes[noteId].id);
                 render.note.text(pageId, cardIndex, data[pageId].cards[cardIndex].notes[noteId].id, previousNoteId);
             }
+            if (data[pageId].cards[cardIndex].notes[noteId].type == "image"){
+                render.note.image(pageId, cardIndex, data[pageId].cards[cardIndex].notes[noteId].id);
+            }
+
             previousNoteId = data[pageId].cards[cardIndex].notes[noteId].id;
         }
     },
@@ -201,25 +205,14 @@ var render = {
                     e.stopPropagation();
                     create.note.text(pageId, cardIndex, noteId);
                     update();
-//save point
                 }
                 if (e.keyCode == 8 && noteDIV.text()==''){
-                    if ($('.card-'+ data[pageId].cards[cardIndex].id + ' .note-con').children().length < 3){
-                        // do nothing because there are no notes before it 
-                    } else {
-                        $('#'+noteId).remove();
-                        var noteIndexNew = data[pageId].cards[cardIndex].notes.findIndex(function(note) {
-                            return note.id == noteId
-                        });
-                        data[pageId].cards[cardIndex].notes.splice(noteIndexNew, 1);
-                        update(); 
-//save point
-                    }
-                    //print(pageId, cardId);
-                    
+                    remove.note.text(pageId, cardIndex, noteId)
                 }
             });
             noteDIV.on("paste", function(e){
+                create.note.image(pageId, cardIndex, noteId, 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png');
+                /*
                 if(e.clipboardData == false){
                     if(typeof(callback) == "function"){
                         callback(undefined);
@@ -248,7 +241,7 @@ var render = {
                             create.note.image(pageId, cardIndex, noteId, val.data.link);
                         });
                     }
-                }
+                }*/
             } );
             
         },
@@ -256,9 +249,35 @@ var render = {
             var noteIndex = data[pageId].cards[cardIndex].notes.findIndex(function(note) {
                 return note.id == noteId
             });
+            var image = $('#note-image-template').clone().show().attr('id',noteId);
+            if (replaceId == null){
+                $(image).appendTo($('#'+data[pageId].cards[cardIndex].id).find('.note-con'));
+            } else {
+                $('#'+replaceId).replaceWith(image);
+            }
+            image.find('.image').attr('id','img-'+noteId).attr('src', data[pageId].cards[cardIndex].notes[noteIndex].link).click((e)=>{
+                image.toggleClass('focus');
+                console.log('toggled '+noteId)
+            });
+            $(window).click(function(event) {
+                if (event.target.id != 'img-'+noteId){
+                    image.removeClass('focus');
+                }
+            });
 
-            var img = $('<img>').attr('src', data[pageId].cards[cardIndex].notes[noteIndex].link).css('width','50%');
-            $('#'+replaceId).replaceWith(img);
+            $(window).keydown((e)=>{
+                if (e.keyCode == 13){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    create.note.text(pageId, cardIndex, noteId);
+                    image.removeClass('focus');
+                }
+                if (e.keyCode == 8){
+                    if ($('.focus').attr('id') == noteId){
+                        remove.note.image(pageId, cardIndex, $('.focus').attr('id'));
+                    }
+                }
+            });
             
         },
     }
@@ -298,7 +317,7 @@ var create = {
                 type: 'text',
                 content: ''
             })
-            
+            update();
             render.note.text(pageId, cardIndex, newID, prevId);
             //console.log(data[pageId].cards[cardId].notes, data[pageId].cards[cardId].topic);
         },
@@ -315,7 +334,7 @@ var create = {
                 link: imglink,
                 height: 100,
             });
-
+            update();
             render.note.image(pageId, cardIndex, newID, replaceId);
         }
     },
@@ -333,6 +352,7 @@ var create = {
             }]
         };
         (data[noteId].cards).push(newcard);
+        update();
         renderCard(noteId, (data[noteId].cards).length - 1)
     }
 }
@@ -344,7 +364,36 @@ var remove = {
         (data[pageId].cards).splice(cardIndex, 1);
         console.log(data[pageId].cards);
         update();
+        load();
+    },
+    note: {
+        text: (pageId, cardIndex, noteId)=>{
+            if ((data[pageId].cards[cardIndex].notes).length < 2){
+                // do nothing because there are no notes before it 
+            } else {
+                $('#'+noteId).remove();
+                var noteIndexNew = data[pageId].cards[cardIndex].notes.findIndex(function(note) {
+                    return note.id == noteId
+                });
+                data[pageId].cards[cardIndex].notes.splice(noteIndexNew, 1);
+                update(); 
+            }
+        },
+        image: (pageId, cardIndex, noteId)=>{
+            if ((data[pageId].cards[cardIndex].notes).length < 2){
+                // nothing left, prevent removal
+            } else {
+                console.log((data[pageId].cards[cardIndex].notes));
+                $('#'+noteId).remove();
+                var noteIndexNew = data[pageId].cards[cardIndex].notes.findIndex(function(note) {
+                    return note.id == noteId
+                });
+                data[pageId].cards[cardIndex].notes.splice(noteIndexNew, 1);
+                update(); 
+            }
+        }
     }
+
 }
 
 function print(pageId, cardIndex){
