@@ -178,14 +178,19 @@ var render = {
         }
     },
     note: {
-        text: (pageId, cardIndex, noteId, prevId) => { // prevId refers to the Id of the note that is before this note
+        text: (pageId, cardIndex, noteId, prevId, before) => { // prevId refers to the Id of the note that is before this note
             var notecontainer;
             var noteDIV;
             if (prevId == null){
                 notecontainer = $('#note-template').clone().show().appendTo('.card-'+ data[pageId].cards[cardIndex].id + ' .note-con').attr('id',noteId);
             } else {
                 notecontainer = $('#note-template').clone().show().attr('id',noteId);
-                $('#'+prevId).after(notecontainer);
+
+                if (before == 'before'){
+                    $('#'+prevId).before(notecontainer);
+                } else {
+                    $('#'+prevId).after(notecontainer);
+                }
             }
             noteDIV = $('#'+noteId).find('.editor').focus();
             var noteIndex = data[pageId].cards[cardIndex].notes.findIndex(function(note) {
@@ -203,8 +208,13 @@ var render = {
                 if (e.keyCode == 13){
                     e.preventDefault();
                     e.stopPropagation();
-                    create.note.text(pageId, cardIndex, noteId);
-                    update();
+                    let selection = window.getSelection();
+                    selection.modify('extend', 'backward', 'word');
+                    if ((window.getSelection()).toString() == '' || (window.getSelection()).toString() == null){
+                        create.note.text(pageId, cardIndex, noteId, 'before');
+                    } else {
+                        create.note.text(pageId, cardIndex, noteId);
+                    }
                 }
                 if (e.keyCode == 8 && noteDIV.text()==''){
                     remove.note.text(pageId, cardIndex, noteId)
@@ -307,7 +317,7 @@ var modify = {
 
 var create = {
     note: {
-        text: (pageId, cardIndex, prevId) => {
+        text: (pageId, cardIndex, prevId, before) => {
             var newID = Math.random().toString(16).slice(2);
             var index = data[pageId].cards[cardIndex].notes.findIndex(function(note) {
                 return note.id == prevId
@@ -318,7 +328,7 @@ var create = {
                 content: ''
             })
             update();
-            render.note.text(pageId, cardIndex, newID, prevId);
+            render.note.text(pageId, cardIndex, newID, prevId, before);
             //console.log(data[pageId].cards[cardId].notes, data[pageId].cards[cardId].topic);
         },
         image: (pageId, cardIndex, replaceId, imglink) => {
