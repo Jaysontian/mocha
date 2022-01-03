@@ -220,17 +220,47 @@ var render = {
                 }
             });
             noteDIV.on("paste", function(e){
-                    // Handle the event
-                retrieveImageFromClipboardAsBase64(e, function(imageDataBase64){
-                    // If there's an image, open it in the browser as a new window :)
-                    if(imageDataBase64){
-                        // data:image/png;base64,iVBORw0KGgoAAAAN......
-                        window.open(imageDataBase64.src);
+                if(e.clipboardData == false){
+                    if(typeof(callback) == "function"){
+                        callback(undefined);
                     }
-                });
+                };
+                var items = (e.clipboardData || e.originalEvent.clipboardData).items;;
+                if(items == undefined){
+                    if(typeof(callback) == "function"){
+                        callback(undefined);
+                    }
+                };
+                for (var i = 0; i < items.length; i++) {
+                    if ((items[i].type).includes('image')){
+                        var image = items[i].getAsFile();
+            
+                        const formData = new FormData();
+                        formData.append('image', image);
+                        fetch('https://api.imgur.com/3/image', {
+                            method: 'POST',
+                            headers: new Headers({ 'Authorization': 'Client-ID b8578be85341600'}),
+                            body: formData,
+                        }).then((res) => {
+                            return res.json();
+                        }).then(function(val) {
+                            appendPre('<a href="'+ val.data.link +'">Image</a> Uploaded');
+                            create.note.image(pageId, cardIndex, noteId, val.data.link);
+                        });
+                    }
+                }
             } );
             
-        }
+        },
+        image: (pageId, cardIndex, noteId, replaceId)=>{
+            var noteIndex = data[pageId].cards[cardIndex].notes.findIndex(function(note) {
+                return note.id == noteId
+            });
+
+            var img = $('<img>').attr('src', data[pageId].cards[cardIndex].notes[noteIndex].link).css('width','50%');
+            $('#'+replaceId).replaceWith(img);
+            
+        },
     }
 }
 var modify = {
@@ -262,7 +292,7 @@ var create = {
             var newID = Math.random().toString(16).slice(2);
             var index = data[pageId].cards[cardIndex].notes.findIndex(function(note) {
                 return note.id == prevId
-              });
+            });
             (data[pageId].cards[cardIndex].notes).splice(parseInt(index)+1, 0, {
                 id: newID,
                 type: 'text',
@@ -271,6 +301,22 @@ var create = {
             
             render.note.text(pageId, cardIndex, newID, prevId);
             //console.log(data[pageId].cards[cardId].notes, data[pageId].cards[cardId].topic);
+        },
+        image: (pageId, cardIndex, replaceId, imglink) => {
+            var index = data[pageId].cards[cardIndex].notes.findIndex(function(note) {
+                return note.id == replaceId
+            });
+            (data[pageId].cards[cardIndex].notes).splice(index, 1);
+            var newID = Math.random().toString(16).slice(2);
+
+            (data[pageId].cards[cardIndex].notes).splice(index, 0, {
+                id: newID,
+                type: 'image',
+                link: imglink,
+                height: 100,
+            });
+
+            render.note.image(pageId, cardIndex, newId, prevId);
         }
     },
     card: (noteId) =>{
@@ -309,79 +355,3 @@ function print(pageId, cardIndex){
 
 
 
-
-
- function retrieveImageFromClipboardAsBase64(pasteEvent, callback, imageFormat){
-	if(pasteEvent.clipboardData == false){
-        if(typeof(callback) == "function"){
-            callback(undefined);
-        }
-    };
-
-    var items = (pasteEvent.clipboardData || pasteEvent.originalEvent.clipboardData).items;;
-
-    if(items == undefined){
-        if(typeof(callback) == "function"){
-            callback(undefined);
-        }
-    };
-
-    for (var i = 0; i < items.length; i++) {
-        // Skip content if not image
-        console.log(items[i].type);
-
-        if ((items[i].type).includes('image')){
-            var image = items[i].getAsFile();
-
-            const formData = new FormData();
-            formData.append('image', image);
-            fetch('https://api.imgur.com/3/image', {
-                method: 'POST',
-                headers: new Headers({ 'Authorization': 'Client-ID b8578be85341600'}),
-                body: formData,
-            }).then((res) => {
-                return res.json();
-            }).then(function(val) {
-                console.log(val);
-                appendPre('Image!');
-                con.remove();
-            });
-        }
-
-        /*
-        if (items[i].type.indexOf("image") == -1) continue;
-        // Retrieve image on clipboard as blob
-        var blob = items[i].getAsFile();
-
-        // Create an abstract canvas and get context
-        var mycanvas = document.createElement("canvas");
-        var ctx = mycanvas.getContext('2d');
-        
-        // Create an image
-        var img = new Image();
-
-        // Once the image loads, render the img on the canvas
-        img.onload = function(){
-            // Update dimensions of the canvas with the dimensions of the image
-            mycanvas.width = this.width;
-            mycanvas.height = this.height;
-
-            // Draw the image
-            ctx.drawImage(img, 0, 0);
-
-            // Execute callback with the base64 URI of the image
-            if(typeof(callback) == "function"){
-                callback(mycanvas.toDataURL(
-                    (imageFormat || "image/png")
-                ));
-            }
-        };
-
-        // Crossbrowser support for URL
-        var URLObj = window.URL || window.webkitURL;
-
-        // Creates a DOMString containing a URL representing the object given in the parameter
-        // namely the original Blob
-        img.src = URLObj.createObjectURL(blob);*/
-    }
-}
